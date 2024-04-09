@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 [submodule "lib/foundry-huff"]
 	path = lib/foundry-huff
 	url = https://github.com/huff-language/foundry-huff
@@ -7,3 +8,20 @@
 [submodule "lib/solmate"]
 	path = lib/solmate
 	url = https://github.com/transmissions11/solmate
+=======
+[submodule "lib/foundry-huff"]
+	path = lib/foundry-huff
+	url = https://github.com/huff-language/foundry-huff
+[submodule "lib/forge-std"]
+	path = lib/forge-std
+	url = https://github.com/foundry-rs/forge-std
+[submodule "lib/solmate"]
+	path = lib/solmate
+	url = https://github.com/transmissions11/solmate
+[submodule "new-project/lib/forge-std"]
+	path = new-project/lib/forge-std
+	url = https://github.com/foundry-rs/forge-std
+[submodule "new-project/lib/openzeppelin-contracts"]
+	path = new-project/lib/openzeppelin-contracts
+	url = https://github.com/OpenZeppelin/openzeppelin-contracts
+>>>>>>> 6e22367a8cf38565f4338327c61f0670e5d0d4e9
