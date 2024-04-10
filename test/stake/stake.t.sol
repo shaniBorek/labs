@@ -22,17 +22,19 @@ contract TestStake is Test{
         vm.startPrank(person1);
         vm.deal(person1, 11000);
         vm.warp(1735689600);
-        uint prevBlPerson1 = address(person1).balance;
-        uint prevBalance = address(stake).balance;
+        stake.mint(person1 , 11000);
+        uint prevBlPerson1 = stake.balanceOf(address(person1));
+        uint prevBalance = stake.balanceOf(address(stake));
         uint preveTotalStake = stake.totalStaked();
+        console.log(stake.balanceOf(person1));
         stake.stake{value: 5000}();
         console.log(stake.beginDates(person1));
         assertEq(stake.stakedAmounts(person1),5000);
         assertEq(stake.beginDates(person1)/60/60/24, block.timestamp/60/60/24);
         assertEq(stake.totalStaked() , preveTotalStake + 5000);
-        assertEq(prevBlPerson1 - 5000, person1.balance);
-        assertEq(prevBalance +5000 , address(stake).balance);
-        vm.stopPrank();
+        assertEq(prevBlPerson1 - 5000, stake.balanceOf(person1));
+        assertEq(prevBalance +5000 , stake.balanceOf(address(stake)));
+       // vm.stopPrank();
 
     }
 
@@ -40,59 +42,63 @@ contract TestStake is Test{
         //vm.startPrank(person1)
         vm.expectRevert("must be positive amount");
         stake.stake{value: 0}();
-        console.log("gggggggggggggg");
-        
+        console.log("gggggggggggggg");   
     }
 
     function testStakFallNoMoney() public {
-       vm.startPrank(person1);
+        vm.startPrank(person1);
         vm.deal(person1, 100000);
-        vm.warp(1735689600);
-        console.log("p",person1.balance);
-        uint prevBlPerson1 = address(person1).balance;
-        uint prevBalance = address(stake).balance;
-        uint preveTotalStake = stake.totalStaked();
-        //vm.expectRevert("no money");
+        stake.mint(person1 , 10);
+        console.log("p",stake.balanceOf(person1));
+        vm.expectRevert("no money");
         stake.stake{value: 5000}();
-        console.log(stake.beginDates(person1));
-        assertEq(stake.stakedAmounts(person1),5000);
-        assertEq(stake.beginDates(person1)/60/60/24, block.timestamp/60/60/24);
-        assertEq(stake.totalStaked() , preveTotalStake + 5000);
-        assertEq(prevBlPerson1 - 5000, person1.balance);
-        assertEq(prevBalance +5000 , address(stake).balance);
-        console.log("p",person1.balance);
-        vm.stopPrank();
-
-
+        vm.stopPrank();    
     }
-
-
 
     function testWithDraw() public {
         uint beginDate =  1735689600;
         vm.warp(beginDate);
         vm.startPrank(person1);
+        stake.mint(person1 , 100000);
         vm.deal(person1, 100000);
-        
+         console.log("balance:", stake.balanceOf(address(stake)));
        // vm.warp(beginDate);
         stake.stake{value:10000}();
         vm.stopPrank();
         vm.startPrank(person2);
+        stake.mint(person2 , 100000);
         vm.deal(person2, 100000);
         stake.stake{value:5000}();
         vm.stopPrank();
         vm.startPrank(person3);
+        stake.mint(person3 , 100000);
         vm.deal(person3, 100000);
         stake.stake{value:5000}();
-         uint prevBl = person3.balance;
+         uint prevBl = stake.balanceOf(person3);
         vm.warp(beginDate+8*24*60*60);
         stake.withdraw();
-        console.log("person1" , person1.balance);
-        console.log("person2",person2.balance);
-        console.log("person3",person3.balance);
-        assertEq(person3.balance , prevBl+5000 +250000);
-        
+        console.log("person1" , stake.balanceOf(person1));
+        console.log("person2",stake.balanceOf(person2));
+        console.log("person3",stake.balanceOf(person3));
+        assertEq(stake.balanceOf(person3) , prevBl+5000 +250000);
+    }
 
+    function testWithDrawFall() public {
+        vm.startPrank(person1);
+        vm.expectRevert("you didn't stake anything");
+        stake.withdraw();
+    }
+
+    function testWithDrawFllLocked() public {
+        uint beginDate =  1735689600;
+        vm.warp(beginDate);
+        vm.startPrank(person1);
+        stake.mint(person1 , 100000);
+        vm.deal(person1, 100000);
+        stake.stake{value:10000}();
+        vm.warp(beginDate+2*24*60*60);
+        vm.expectRevert("Your money is still locked.");
+        stake.withdraw();
     }
 }
 
