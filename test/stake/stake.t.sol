@@ -81,6 +81,8 @@ contract TestStake is Test{
         console.log("person2",stake.balanceOf(person2));
         console.log("person3",stake.balanceOf(person3));
         assertEq(stake.balanceOf(person3) , prevBl+5000 +250000);
+        vm.expectRevert();
+        stake.withdraw();
     }
 
     function testWithDrawFall() public {

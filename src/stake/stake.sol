@@ -57,8 +57,8 @@ contract Stake is ERC20 {
         _mint(address(this), reward);
         _approve(address(this), msg.sender,stakedAmounts[msg.sender]+reward);
         transferFrom(address(this), msg.sender,stakedAmounts[msg.sender]+reward);
-        stakedAmounts[msg.sender] = 0;
-        beginDates[msg.sender] = 0;
+        delete stakedAmounts[msg.sender];
+        delete beginDates[msg.sender];
         //payable(msg.sender).transfer(stakedAmounts[msg.sender]+reward);
         
     }
