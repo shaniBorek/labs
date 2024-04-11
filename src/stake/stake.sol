@@ -4,46 +4,43 @@ import "foundry-huff/HuffDeployer.sol";
 import "forge-std/Test.sol";
 //import "../../lib/openzeppelin-contracts/contracts/token/ERC20"
 import "forge-std/console.sol";
-import "@openzeppelin/ERC20/ERC20.sol";
+import "@openzeppelin/ERC20/IERC20.sol";
+import "../../../new-project/src/MyToken.sol";
 //import "../../lib/solmate/src/tokens/ERC20.sol";
-contract Stake is ERC20 {
+contract Stake{
     address public owner;
-    // ERC20 public immutable erc20;
+    MyToken public immutable token;
     uint public totalReward;
     uint public totalStaked;
     uint WAD =10**18;
     mapping(address=>uint) public stakedAmounts;
     mapping(address=>uint) public beginDates;
-    constructor() ERC20('COIN', 'CN') {
+    constructor(address _token) {
+        token = MyToken(_token);
         totalReward = 1000000;
         owner = msg.sender;
-        // erc20 = new ERC20('COIN', 'CN',18);
-        // erc20.
-        //payable(address(this)).transfer(totalReward);
-        _mint(address(this), totalReward);
-        
-           console.log("this" ,balanceOf(address(this)));
-        // address(this).balance+=1000;??????????
+        token.mint(address(this), totalReward);
+        console.log("this" ,token.balanceOf(address(this)));
     }
 
     function mint(address to ,uint amount) public{
-        _mint(to, amount);
+        token.mint(to, amount);
     }
 
     receive() external payable {
-       // require(balanceOf(person1 , 100000);msg.sender)>=msg.value, "not enough money");
+    //    require(balanceOf(person1)>=msg.value, "not enough money");
     }
     function stake() external payable{
         require(msg.value>0, "must be positive amount");
-        console.log(balanceOf(msg.sender));
+        console.log(token.balanceOf(msg.sender));
         console.log("msg.value",msg.value);
-        require(balanceOf(msg.sender) >= msg.value  ,"no money");
+        require(token.balanceOf(msg.sender) >= msg.value  ,"no money");
         stakedAmounts[msg.sender] += msg.value;
         beginDates[msg.sender] = block.timestamp;
         totalStaked+=msg.value;
-        transfer(address(this),msg.value);
+        token.transferFrom(msg.sender,address(this),msg.value);
         //payable(address(this)).transfer(msg.value);
-        console.log(balanceOf(msg.sender));
+        console.log(token.balanceOf(msg.sender));
     }
     function withdraw() external {
         require(stakedAmounts[msg.sender]>0,"you didn't stake anything");
@@ -53,17 +50,15 @@ contract Stake is ERC20 {
         uint reward = totalReward * ( stakedAmounts[msg.sender]*WAD/totalStaked)/WAD;
         
         console.log(reward);
-         console.log("this" ,balanceOf(address(this)));
-        _mint(address(this), reward);
-        _approve(address(this), msg.sender,stakedAmounts[msg.sender]+reward);
-        transferFrom(address(this), msg.sender,stakedAmounts[msg.sender]+reward);
+         console.log("this" ,token.balanceOf(address(this)));
+        token.mint(address(this), reward);
+        // _approve(address(this), msg.sender,stakedAmounts[msg.sender]+reward);
+        token.transfer( msg.sender,stakedAmounts[msg.sender]+reward);
         delete stakedAmounts[msg.sender];
-        delete beginDates[msg.sender];
-        //payable(msg.sender).transfer(stakedAmounts[msg.sender]+reward);
-        
+        delete beginDates[msg.sender];        
     }
     function getBalance() public returns (uint) {
-        return balanceOf(address(this));
+        return token.balanceOf(address(this));
     }
     function stakedAmount() public returns (uint) {
         return stakedAmounts[msg.sender];
