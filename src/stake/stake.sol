@@ -15,6 +15,7 @@ contract Stake{
     uint WAD =10**18;
     mapping(address=>uint) public stakedAmounts;
     mapping(address=>uint) public beginDates;
+
     constructor(address _token) {
         token = MyToken(_token);
         totalReward = 1000000;
