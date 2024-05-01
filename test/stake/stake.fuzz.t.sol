@@ -18,12 +18,16 @@ contract TestFuzzStake is Test {
 
     function testFuzzStake(uint initialVal, uint amountStake) public {
         vm.startPrank(person1);
+          vm.deal(person1, 11000);
         vm.warp(1735689600);
        // Limit the input range manually
         // uint256 limitedValue = value % amountToken; // Limits `value` to be between 0 and 999
         // contract.testFunction(limitedValue);
+        vm.assume(initialVal>0 && amountStake>0 );
+        vm.assume(initialVal<100000000);
         stake.mint(person1 ,initialVal );
         vm.assume(amountStake <= initialVal);
+        console.log("amountStake" , amountStake);
         uint prevBlPerson1 = token.balanceOf(address(person1));
         uint prevBalance = token.balanceOf(address(stake));
         uint preveTotalStake = stake.totalStaked();
