@@ -2,8 +2,8 @@
 // https://solidity-by-example.org/defi/staking-rewards/
 // Code is a stripped down version of Synthetix
 pragma solidity ^0.8.20;
-
 import "@openzeppelin/ERC20/IERC20.sol";
+import "forge-std/console.sol";
 contract StakingRewards {
     IERC20 public immutable stakingToken;
     IERC20 public immutable rewardsToken;
@@ -90,6 +90,7 @@ contract StakingRewards {
         // Reward + leftover must be less than 2^256 / 10^18 to
         // avoid overflow.
         uint balance = rewardsToken.balanceOf(address(this));
+        console.log("balance" , balance);
         require(rate <= balance / duration, "provided reward too high");
         finish  = block.timestamp + duration;
         updated = block.timestamp;
