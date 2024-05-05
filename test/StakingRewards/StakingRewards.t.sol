@@ -33,7 +33,7 @@ contract TestStake is Test{
         staking.stake(100);
         vm.stopPrank();
         vm.warp(1735689600);
-       console.log("stakingggg", staking.staked());
+        console.log("stakingggg", staking.staked());
         staking.updateRate(1000);
 
         console.log("rate" , staking.rate());

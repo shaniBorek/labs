@@ -76,8 +76,11 @@ contract StakingRewards {
     }
     function updateRate(uint256 amount) external
     onlyOwner updateReward(address(0)) {
+        console.log("finish", finish);
         if (block.timestamp >= finish) {
             rate = amount / duration;
+            console.log(duration);
+            console.log("balablock.timestamp " , block.timestamp );
         } else {
             uint remaining = (finish - block.timestamp);
             uint leftover  = remaining * rate;
@@ -91,6 +94,7 @@ contract StakingRewards {
         // avoid overflow.
         uint balance = rewardsToken.balanceOf(address(this));
         console.log("balance" , balance);
+        console.log("amount" , amount);
         require(rate <= balance / duration, "provided reward too high");
         finish  = block.timestamp + duration;
         updated = block.timestamp;
