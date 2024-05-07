@@ -40,6 +40,14 @@ contract CP {
         }
         require(shares > 0, "shares = 0");
         mint(msg.sender , shares);
-        
+        reserve0 = token0.balanceOf(address(this));
+        reserve1 = token.balanceOf(address(this));
+
+    }
+
+    function removeLiquidity( uint amount0, uint amount1) {
+        uint bal0 = token0.balanceOf(address(this));
+        uint bal1 = token1.balanceOf(address(this));
+       
     }
 }
