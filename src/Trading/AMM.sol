@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
-import "@hack/like/IERC20.sol";
+import "@openzeppelin/ERC20/IERC20.sol";
 // constant product
-contract CP {
+contract Amm1 {
     IERC20 public immutable token0;
     IERC20 public immutable token1;
     uint public reserve0;
