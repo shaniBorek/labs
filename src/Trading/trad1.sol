@@ -9,11 +9,12 @@ contract Trad {
     bool oneTime = true;
     uint balanceTokanA;
     uint balanceTokanB;
-    uint totalgi
+    uint totalgi;
+    mapping(address=> uint ) public Liquidity;
     constructor (address ta ,address tb) {
         owner = msg.sender;
         tokenA = IERC20(ta);
-        tokeB =IERC20(tb);
+        tokenB =IERC20(tb);
 
         
     }
