@@ -58,10 +58,10 @@ contract Stake{
         delete stakedAmounts[msg.sender];
         delete beginDates[msg.sender];        
     }
-    function getBalance() public returns (uint) {
+    function getBalance() view public returns (uint) {
         return token.balanceOf(address(this));
     }
-    function stakedAmount() public returns (uint) {
+    function stakedAmount() view public returns (uint) {
         return stakedAmounts[msg.sender];
     }
 }

@@ -20,7 +20,7 @@ contract testAmountDivisin is Test{
         vm.deal(payable(aD) ,10 ether);
         vm.startPrank(address(this));
         uint first = address(walletAddress[0]).balance;
-        uint seconed = address(walletAddress[1]).balance;
+        // uint seconed = address(walletAddress[1]).balance;
         aD.divid{value: 10 ether}( walletAddress );
 
         assertEq(address(walletAddress[0]).balance , first + 5 ether );

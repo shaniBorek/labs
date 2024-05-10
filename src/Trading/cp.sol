@@ -1,5 +1,6 @@
 // //SPDX-License-Identifier: MIT
-// pragma solidity ^0.8.20;
+ pragma solidity ^0.8.20;
+// import "@openzeppelin/ERC20/IERC20.sol";
 // contract CP {
 //     IERC20 public immutable token0; 
 //     IERC20 public immutable token1;
@@ -10,7 +11,7 @@
 
 //     constructor(address t0, address t1) {
 //         token0 = IERC20(t0);
-//         token1  IERC20(t1);
+//         token1 = IERC20(t1);
 //     }
 
 //     function mint(address to, uint amount)private {
@@ -35,7 +36,7 @@
 //         else{
 //             shares = mint(
 //                 (amount0 * totalSupply) / reserve0,
-//                 (amount1 * totalSupply) / reserve1;
+//                 (amount1 * totalSupply) / reserve1
 //                 );
 //         }
 //         require(shares > 0, "shares = 0");
@@ -45,7 +46,7 @@
 
 //     }
 
-//     function removeLiquidity( uint amount0, uint amount1) {
+//     function removeLiquidity( uint amount0, uint amount1) public{
 //         uint bal0 = token0.balanceOf(address(this));
 //         uint bal1 = token1.balanceOf(address(this));
 //        amount0 =  (_shares * bal0)/ totalSupply;

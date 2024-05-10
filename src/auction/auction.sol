@@ -1,21 +1,22 @@
 // SPDX-License-Identifier: MIT
 
-pragma solidity ^0.8.24;
+pragma solidity ^0.8.20;
 
 
 
 contract Auction {
 
 //   struct auctionSeller {
-//         bool public started;
-//         uint public endTime; 
-//         mapping(address => uint)public bidders;
-//         address public highestBidder;
-//         uint public highestBid;
+//         bool  started;
+//         uint  endTime; 
+//         mapping(address => uint) bidders;
+//         address  highestBidder;
+//         uint  highestBid;
 //     }
     
     address  owner;
     mapping(address => uint)public bidders;
+    mapping(address => auctionSeller)public auctionSellerMapping;
     bool public started;
     uint public endTime;
     address public highestBidder;
@@ -29,6 +30,11 @@ contract Auction {
     
         emit Start(block.timestamp, endTime, msg.value);
     }
+
+    // function initial(bool start, uint end) public {
+    //   auctionSellerMapping[msg.sender].started = start;
+    //   auctionSellerMapping[msg.sender].endTime = end ;
+    // }
 
     event Start(uint startTime, uint endTime, uint NFT);
 

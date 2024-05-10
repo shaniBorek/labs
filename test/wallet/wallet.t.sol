@@ -69,7 +69,7 @@ contract WalletTest is Test {
         address userAddress =0x29392969D235eA463A6AA42CFD4182ED2ecB5117;
         vm.startPrank(userAddress);
         vm.deal(userAddress, 100);
-        uint256 beforeAdding = address(wallet1).balance;
+        // uint256 beforeAdding = address(wallet1).balance;
         console.log("address(wallet1).balance;", address(wallet1).balance);
         console.log("address(userAddress).balance;", address(userAddress).balance);
         wallet1.remove(0x074AC318E0f004146dbf4D3CA59d00b96a100100);
@@ -79,7 +79,7 @@ contract WalletTest is Test {
         address userAddress =0x29392969D235eA463A6AA42CFD4182ED2ecB5117;
         vm.startPrank(userAddress);
         vm.deal(userAddress, 100);
-        uint256 beforeAdding = address(wallet1).balance;
+        // uint256 beforeAdding = address(wallet1).balance;
         console.log("address(wallet1).balance;", address(wallet1).balance);
         console.log("address(userAddress).balance;", address(userAddress).balance);
         wallet1.replace(0x074AC318E0f004146dbf4D3CA59d00b96a100100,0x138b601992D3E744cD2a883bF5a46b3a23D9E7F5);
