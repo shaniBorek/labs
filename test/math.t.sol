@@ -5,7 +5,7 @@ import "forge-std/console.sol";
 import "forge-std/Test.sol";
 contract Math is Test ,DSMath{
     function setUp() public{}
-    function testAdd() public {
+    function testAdd() view public {
        uint a = 2;
        uint b = 1000;
        uint mul1 = mul(a, WAD);
