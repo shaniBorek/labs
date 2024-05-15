@@ -6,39 +6,38 @@ contract AMM1{
     address public owner;
     IERC20 public immutable tokenA;
     IERC20 public immutable tokenB;
-    address owner;
     bool oneTime = true;
     uint balanceTokanA;
     uint balanceTokanB;
     uint totalgi;
     mapping(address=> uint ) public Liquidity;
-    constructor (address ta ,address tb) {
-        owner = msg.sender;
-        tokenA = IERC20(ta);
-        tokenB =IERC20(tb);
-
+   //  constructor (address ta ,address tb) {
+   //      owner = msg.sender;
+   //      tokenA = IERC20(ta);
+   //      tokenB =IERC20(tb);
+   //  }
         
 // =======
-//     uint256 public amountA;
-//     uint256 public amountB;
-//     bool isInitialized;
-//     uint kFactors;
-//     uint constant WAD  = 10**18;
-//     //אחוז הנזילות שכתובת ארנק סיפקה
-//     mapping(address=>uint) public liquidityProviders;
-//     constructor(IERC20 tA, IERC20 tB, uint256 aA, uint256 aB){
-//         owner = msg.sender;
-//         tokenA = IERC20(tA);
-//         tokenB = IERC20(tB);
-//         initialize(aA, aB);
-//     }
-//     function initialize(uint256 initializeA, uint256 initializeB ) private{
-//         require(initializeA > 0 && initializeB > 0 && initializeA == initializeB, "InitialA and initialB must be greater than zero.");
-//         require(isInitialized == false, "");
-//         amountA = initializeA;
-//         amountB = initializeB;
-//         kFactors = initializeA;
-//         isInitialized = true;
+    uint256 public amountA;
+    uint256 public amountB;
+    bool isInitialized;
+    uint kFactors;
+    uint constant WAD  = 10**18;
+    //אחוז הנזילות שכתובת ארנק סיפקה
+    mapping(address=>uint) public liquidityProviders;
+    constructor(IERC20 tA, IERC20 tB, uint256 aA, uint256 aB){
+        owner = msg.sender;
+        tokenA = IERC20(tA);
+        tokenB = IERC20(tB);
+        initialize(aA, aB);
+    }
+    function initialize(uint256 initializeA, uint256 initializeB ) private{
+        require(initializeA > 0 && initializeB > 0 && initializeA == initializeB, "InitialA and initialB must be greater than zero.");
+        require(isInitialized == false, "");
+        amountA = initializeA;
+        amountB = initializeB;
+        kFactors = initializeA;
+        isInitialized = true;
 // >>>>>>> 62e333eb08d206a0c3edf504f1d10e86502fb75e
     }
     modifier onlyOwner() {
