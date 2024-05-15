@@ -50,8 +50,9 @@ contract AuctionTest is Test {
         token.approve(address(auction), 1);
         auction.startAuction(1, 5 days , 20);
         address bidder = address(1234);
-        vm.startPrank(bidder);
+        vm.startPrank(address(1234));
         vm.deal(bidder, 1000);
+        console.log("address bidder" , msg.sender);
         console.log("bidder balance before:", bidder.balance);
         uint ablanceBefor = bidder.balance;
         uint contractAmount = address(auction).balance;
@@ -61,7 +62,7 @@ contract AuctionTest is Test {
         console.log("bidder balance after:", bidder.balance);
         assertEq(ablanceBefor - amount , bidder.balance, "The balance is not equal");
         assertEq(contractAmount + amount , address(auction).balance);
-         auction.endAuction(1);
+        vm.warp(1648739200 + 7 days);
     }
 
     function test_placeBider_unsuccess()public {
@@ -99,17 +100,16 @@ contract AuctionTest is Test {
     function test_endAuction() public{
         vm.warp(1648739200);
         address bidder = address(1234);
-        vm.deal(bidder, 1000);
+        vm.deal(bidder, 1000000000000000);
         token.approve(address(auction), 1);
         auction.startAuction(1, 5 days , 20);
         vm.startPrank(bidder);
-        vm.warp(1648739200 +1 days);
         auction.placesBid{value: 500}(1);
-        
+        vm.warp(1648739200 + 6 days);
         uint sellerBalance = auction.getAuction(1).seller.balance;
         uint bidderBalance = token.balanceOf(bidder);
         uint contractBalance = address(auction).balance;
-    
+        console.log("balance this", address(this).balance);
         console.log("seller balance befor" , auction.getAuction(1).seller.balance);
         console.log("contract balance befor", address(auction).balance);
         console.log("bidder balance nft befor",token.balanceOf(bidder) );

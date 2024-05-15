@@ -20,4 +20,5 @@ module Tx {
     method transfer(address: u160, value: u256) returns (r:Result<()>) {
         return Ok(()); // dummy
     }
+    
 }

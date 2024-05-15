@@ -42,7 +42,7 @@ contract Auction {
     //     require(msg.sender == owner, "not authorized");
     //     _;
     // }
-    function startAuction(uint _nftId, uint numDays, uint startAmount) external {
+    function startAuction(uint _nftId, uint numDays, uint startAmount) external  {
         // require(msg.sender == auctions[_nftId].seller, "only seller can change");
         require(numDays > 0, "Num days must be bigger than zero");
         require(auctions[_nftId].seller == address(0), "Auction already exist");        
@@ -75,15 +75,15 @@ contract Auction {
         if(msg.value <= auctions[_nftId].highestBid) {
             revert err("The previous bid was higher");
         }
-        
+
         if(address(0) != auctions[_nftId].highestBidder){
         payable(address(auctions[_nftId].highestBidder)).transfer(auctions[_nftId].highestBid );
-
+        }
         auctions[_nftId].highestBid = msg.value;
         auctions[_nftId].highestBidder = msg.sender; 
-
+        console.log("yyyyyyyyyyyyyyyyyyyyyy",msg.sender);
         emit Bid(msg.sender,  auctions[_nftId].highestBid);
-        }
+        
     }
 
 
@@ -94,7 +94,7 @@ contract Auction {
         
         if( auctions[_nftId].highestBidder == address(0)) {
             NFT.transferFrom(address(this), auctions[_nftId].seller, _nftId);
-        console.log("ssssssssssssssss",auctions[_nftId].highestBidder);
+        console.log("wwwwwwwwwwwwwwwww",auctions[_nftId].highestBidder);
         }
         
         else {
@@ -106,8 +106,14 @@ contract Auction {
                
             //     }
             console.log("ssssssssssssssss",NFT.balanceOf(auctions[_nftId].highestBidder));
-             payable(address(auctions[_nftId].seller)).transfer(auctions[_nftId].highestBid);
-
+            console.log("seller balance before",address(auctions[_nftId].seller).balance);
+            console.log("amount",auctions[_nftId].highestBid);
+            console.log("contract balance" ,address(this).balance);
+            
+            console.log("bidder balance before",address(auctions[_nftId].highestBidder).balance );
+            payable(auctions[_nftId].seller).transfer(auctions[_nftId].highestBid);
+            console.log("bidder balance after",address(auctions[_nftId].highestBidder).balance ); 
+             console.log("seller balance after",address(auctions[_nftId].seller).balance);
         }
         delete auctions[_nftId];
       
@@ -119,3 +125,5 @@ contract Auction {
 
 
 }
+
+
