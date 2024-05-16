@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 
 pragma solidity ^0.8.20;
-
+import "@openzeppelin/ERC721/IERC721.sol";
 
 
 contract Auction {
@@ -21,13 +21,14 @@ contract Auction {
     uint public endTime;
     address public highestBidder;
     uint public highestBid;
+    ERC721 NFT;
     error err(string message);
 
-    constructor(uint _endTime) payable {
+    constructor(uint _endTime , string name, string symble) payable {
         owner = msg.sender;
         started = true;
         endTime = _endTime;
-    
+        NFT = new ERC271(name , symble);
         emit Start(block.timestamp, endTime, msg.value);
     }
 
