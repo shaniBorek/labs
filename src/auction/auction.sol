@@ -22,7 +22,7 @@ contract Auction {
     mapping(address => uint)public bidders;
     bool public started;
     uint public endTime;
-    ERC721 NFT;
+    IERC721 NFT;
     error err(string message);
     mapping(uint => auctionSeller)  public auctions;
     

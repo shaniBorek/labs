@@ -5,7 +5,7 @@ import "foundry-huff/HuffDeployer.sol";
 import "forge-std/Test.sol";
 import "forge-std/console.sol";
 import "../../../new-project/src/MyToken.sol";
-import "@hack/trading/AMM.sol";
+import "@hack/Trading/AMM.sol";
 contract TestAmm is Test{
     Amm1 amm;
     MyToken t0;

@@ -12,7 +12,7 @@ contract AuctionTest is Test {
     Auction auction;
     MyERC721 token;
 
-
+ receive() external payable {}
     function setUp() public {
         token = new MyERC721("MyNFT", "NFT");
         auction = new Auction(address(token));
