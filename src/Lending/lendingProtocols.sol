@@ -51,16 +51,16 @@ contract LedingProtocals is ERC20 ,Mathematics{
     }
 
     function removeETH(uint amount ) external validAmount(amount){
-        require( amount * 3,116 <= lendersDai[msg.sender], "you dont have enough dai");
+        //equire( amount * 3,116 <= lendersDai[msg.sender], "you dont have enough dai");
         payable(address(msg.sender)).transfer(amount);
-        lendersDai[msg.sender] -= amount * 3,116 ;
-        collateralValue -= amount * 3,116 ;
+        // lendersDai[msg.sender] -= amount * 3,116 ;
+        // collateralValue -= amount * 3,116 ;
 
     }
 
     function borrowDAI(uint amount) external validAmount(amount){
-        require(amount/3,116 >= lendingEth[msg.sender], "you dont have enough eth");
-        dai.transferFrom(address(this), msg.sender, amount/3116);
+        // require(amount/3,116 >= lendingEth[msg.sender], "you dont have enough eth");
+        DAI.transferFrom(address(this), msg.sender, amount/3116);
         lendersEth[msg.sender]  -= amount/3116;
         
     }
