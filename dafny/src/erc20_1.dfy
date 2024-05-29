@@ -8,7 +8,7 @@ import opened Maps
 import opened Tx
 
 
-class yy1 {
+class ERC20_1 {
   // a 160-bit unsigned integer that uniquely identifies the address. However,
   // this value is not directly used as the external representation, that is in u256
   var balances:  mapping<u160,u256>
@@ -19,17 +19,20 @@ class yy1 {
     allowance := Map(map[], Map(map[],0));
   }
 
-  method fallback(msg: Transaction) returns (r: Result<()>) {
+  method fallback(msg: Transaction) returns (r: Result<()>) modifies this{
     r := deposit(msg);
   }
 
-  method deposit(msg: Transaction) returns (r: Result<()>) {
+  method deposit(msg: Transaction) returns (r: Result<()>) modifies this`balances, this`allowance {
+    assume{:axom}(MAX_U256 as u256 -balances.Get(msg.sender))>= msg.value;
     balances := balances.Set(msg.sender, balances.Get(msg.sender) + msg.value);
     return Ok(());
   }
 
   // allow users to withdraw tokens into their account, updating their balances.
-  method withdraw(msg: Transaction, wad: u256) returns (r: Result<()>) {
+  method withdraw(msg: Transaction, wad: u256) returns (r: Result<()>)  
+  modifies this`balances, this`allowance{
+    assume{:axom}(MAX_U256 as u256 -balances.Get(msg.sender))>= msg.value;
     if balances.Get(msg.sender) < wad { return Revert; }
     balances := balances.Set(msg.sender, balances.Get(msg.sender) - wad);
 
@@ -39,17 +42,20 @@ class yy1 {
     return Ok(());
   }
 
-  method approve(msg: Transaction, guy: u160, wad: u256) returns (r: Result<bool>) {
+  method approve(msg: Transaction, guy: u160, wad: u256) returns (r: Result<bool>)  modifies this`balances, this`allowance{
     var a := allowance.Get(msg.sender).Set(guy, wad);
     allowance := allowance.Set(msg.sender, a);
     return Ok(true);
   }
 
-  method transfer(msg: Transaction, dst: u160, wad: u256) returns (r: Result<bool>) {  // non-payable
+  method transfer(msg: Transaction, dst: u160, wad: u256) returns (r: Result<bool>)modifies this {  // non-payable
+
     r := transferFrom(msg, msg.sender, dst, wad);
   }
 
-  method transferFrom(msg: Transaction, src: u160, dst: u160, wad: u256) returns (r: Result<bool>) {
+  method transferFrom(msg: Transaction, src: u160, dst: u160, wad: u256) returns (r: Result<bool>)  modifies this`balances, this`allowance{
+   assume{:axom}(MAX_U256 as u256 -balances.Get(dst))>= wad;
+   
     if balances.Get(src) < wad { return Revert; }
 
     if src != msg.sender && allowance.Get(src).Get(msg.sender) != (MAX_U256 as u256) {

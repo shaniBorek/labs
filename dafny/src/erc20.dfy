@@ -78,6 +78,7 @@ class ERC20 {
     requires this.balances.default == 0
     requires src in balances.Keys() && dst in balances.Keys()
     requires msg.value == 0
+    // requires src == dst
     ensures r != Revert ==> sum(old(this.balances.Items())) == sum(this.balances.Items()) {
         assume {:axiom} (old(balances).Get(dst) as nat) + (wad as nat) <= MAX_U256;
         if balances.Get(src) < wad { return Revert; }
