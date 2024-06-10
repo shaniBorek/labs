@@ -1,4 +1,4 @@
-//SPDEX-Licens-Identifier: MIT
+// SPDX-License-Identifier: MIT
 pragma solidity ^0.8.19;
 contract Constants {
     address public constant MY_ADDRESS =

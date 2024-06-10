@@ -1,7 +1,7 @@
-//SPDEX-Licens-Identifer: MIT
+// SPDX-License-Identifier: MIT
 pragma solidity ^0.8.19;
- cotract Primitives {
-    bool public bool = true;
+ contract Primitives {
+    bool public bool1 = true;
     uint public u8 = 1;
     uint public u256 = 456; 
     uint public u = 123;
