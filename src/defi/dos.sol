@@ -1,7 +1,8 @@
-//SPDX-Licens-Idenrifier: MIT
+//SPDX-License-Idenrifier: MIT
 pragma solidity ^0.8.19;
-import "forge-std/test.sol";
+import "forge-std/Test.sol";
 import "forge-std/console.sol";
+
 
 
 contract contractTest is Test {
